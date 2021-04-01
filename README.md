@@ -23,7 +23,7 @@ Either make sure you're running a version of node compliant with the `engines` r
 Run
 
 ```bash
-yarn
+yarn --ignore-engines
 ```
 
 If you run into an error while building the dependencies and you're on a Mac, run the code below, remove your `node_modules` folder, and do a fresh `yarn install`:

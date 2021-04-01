@@ -63,6 +63,7 @@ contract ERC721Tradable is ERC721Full, Ownable {
 
     /**
      * Override isApprovedForAll to whitelist user's OpenSea proxy accounts to enable gas-less listings.
+     * 将OpenSea用户的代理帐户列入白名单，以便他们能够自动在OpenSea上交易任何商品（无需支付额外的批准费用）
      */
     function isApprovedForAll(address owner, address operator)
         public

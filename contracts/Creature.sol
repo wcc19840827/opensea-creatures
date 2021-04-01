@@ -4,7 +4,7 @@ import "./ERC721Tradable.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 /**
- * @title Creature
+ * @title Creature 合约入口
  * Creature - a contract for my non-fungible creatures.
  */
 contract Creature is ERC721Tradable {
@@ -14,7 +14,8 @@ contract Creature is ERC721Tradable {
     {}
 
     function baseTokenURI() public pure returns (string memory) {
-        return "https://creatures-api.opensea.io/api/creature/";
+        //如果您使用IPFS托管元数据，则URL的格式应为ipfs://<hash>。例如，ipfs://QmTy8w65yBXgyfG2ZBg5TrfB2hPjrDQH3RCQFJGkARStJb
+        return "https://creatures-api.opensea.io/api/creature/"; //TODO:
     }
 
     function contractURI() public pure returns (string memory) {
