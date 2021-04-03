@@ -1,0 +1,31 @@
+{
+     "name": "Space Food",
+     "description": "Astronaut's toothpaste-like food in the space station.",
+     "image": "https://ipfs.io/ipfs/QmVB2jkGbsyYBbjQART385wR62H3kehmQSrnw4N27hk42d/NFT/8.png",
+     "attributes": [
+       {
+         "trait_type": "Base", 
+         "value": "jellyfish"
+       },
+       {
+         "display_type": "number", 
+         "trait_type": "Generation", 
+         "value": 2
+       },
+       {
+         "display_type": "boost_percentage", 
+         "trait_type": "Stamina Increase", 
+         "value": 10
+       },
+       {
+         "display_type": "boost_number", 
+         "trait_type": "Aqua Power", 
+         "value": 40
+       },
+       {
+         "display_type": "date", 
+         "trait_type": "birthday", 
+         "value": 1546360800
+       }
+     ]
+}

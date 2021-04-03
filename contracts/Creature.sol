@@ -15,7 +15,8 @@ contract Creature is ERC721Tradable {
 
     function baseTokenURI() public pure returns (string memory) {
         //如果您使用IPFS托管元数据，则URL的格式应为ipfs://<hash>。例如，ipfs://QmTy8w65yBXgyfG2ZBg5TrfB2hPjrDQH3RCQFJGkARStJb
-        return "https://creatures-api.opensea.io/api/creature/"; //TODO:
+        return "https://ipfs.io/ipfs/QmXeypeQzWsbiBbeo7vKuGvaRvrp9j6NGcsPWegZmW8XXy/metadata/"; //TODO:
+        // return "https://creatures-api.opensea.io/api/creature/";
     }
 
     function contractURI() public pure returns (string memory) {
