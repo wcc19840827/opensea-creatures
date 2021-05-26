@@ -24,7 +24,7 @@ const DEPLOY_CREATURES = process.env.DEPLOY_CREATURES || DEPLOY_CREATURES_SALE |
 
 module.exports = async (deployer, network, addresses) => {
   // OpenSea proxy registry addresses for rinkeby and mainnet.
-  let proxyRegistryAddress = "";
+  let proxyRegistryAddress = ""; //FIXME: 如果自己弄交易平台，得换成自己的
   if (network === 'rinkeby') {
     proxyRegistryAddress = "0xf57b2c51ded3a29e6891aba85459d600256cf317";
   } else {

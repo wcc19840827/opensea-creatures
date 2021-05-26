@@ -10,7 +10,9 @@ import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 contract Creature is ERC721Tradable {
     constructor(address _proxyRegistryAddress)
         public
-        ERC721Tradable("Creature", "OSC", _proxyRegistryAddress)
+        ERC721Tradable( "Creature",                 /*token name*/
+                        "OSC",                      /*token symbol*/
+                        _proxyRegistryAddress)      /*token name*/
     {}
 
     function baseTokenURI() public pure returns (string memory) { //TODO:修改成自己的 元数据服务器的API
