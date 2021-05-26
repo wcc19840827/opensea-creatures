@@ -1,8 +1,15 @@
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
 
-import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "./Strings.sol";
+pragma solidity ^0.8.0;
+
+import "openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
+import "openzeppelin-solidity/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "openzeppelin-solidity/contracts/access/Ownable.sol";
+import "openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
+import "openzeppelin-solidity/contracts/utils/Strings.sol";
+
+import "./common/meta-transactions/ContentMixin.sol";
+import "./common/meta-transactions/NativeMetaTransaction.sol";
 
 contract OwnableDelegateProxy {}
 
@@ -14,8 +21,8 @@ contract ProxyRegistry {
  * @title ERC721Tradable
  * ERC721Tradable - ERC721 contract that whitelists a trading address, and has minting functionality.
  */
-contract ERC721Tradable is ERC721Full, Ownable {
-    using Strings for string;
+abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTransaction, Ownable {
+    using SafeMath for uint256;
 
     address proxyRegistryAddress;
     uint256 private _currentTokenId = 0;
@@ -24,8 +31,9 @@ contract ERC721Tradable is ERC721Full, Ownable {
         string memory _name,
         string memory _symbol,
         address _proxyRegistryAddress
-    ) public ERC721Full(_name, _symbol) {
+    ) ERC721(_name, _symbol) {
         proxyRegistryAddress = _proxyRegistryAddress;
+        _initializeEIP712(_name);
     }
 
     /**
@@ -53,12 +61,10 @@ contract ERC721Tradable is ERC721Full, Ownable {
         _currentTokenId++;
     }
 
-    function baseTokenURI() public pure returns (string memory) {
-        return "";
-    }
+    function baseTokenURI() virtual public pure returns (string memory);
 
-    function tokenURI(uint256 _tokenId) external view returns (string memory) {
-        return Strings.strConcat(baseTokenURI(), Strings.uint2str(_tokenId));
+    function tokenURI(uint256 _tokenId) override public pure returns (string memory) {
+        return string(abi.encodePacked(baseTokenURI(), Strings.toString(_tokenId)));
     }
 
     /**
@@ -66,6 +72,7 @@ contract ERC721Tradable is ERC721Full, Ownable {
      * 将OpenSea用户的代理帐户列入白名单，以便他们能够自动在OpenSea上交易任何商品（无需支付额外的批准费用）
      */
     function isApprovedForAll(address owner, address operator)
+        override
         public
         view
         returns (bool)
@@ -77,5 +84,17 @@ contract ERC721Tradable is ERC721Full, Ownable {
         }
 
         return super.isApprovedForAll(owner, operator);
+    }
+
+    /**
+     * This is used instead of msg.sender as transactions won't be sent by the original token owner, but by OpenSea.
+     */
+    function _msgSender()
+        internal
+        override
+        view
+        returns (address sender)
+    {
+        return ContextMixin.msgSender();
     }
 }

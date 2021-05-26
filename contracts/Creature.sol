@@ -1,7 +1,8 @@
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
 
 import "./ERC721Tradable.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 /**
  * @title Creature 合约入口
@@ -9,13 +10,12 @@ import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
  */
 contract Creature is ERC721Tradable {
     constructor(address _proxyRegistryAddress)
-        public
         ERC721Tradable( "Creature",                 /*token name*/
                         "OSC",                      /*token symbol*/
                         _proxyRegistryAddress)      /*token name*/
     {}
 
-    function baseTokenURI() public pure returns (string memory) { //TODO:修改成自己的 元数据服务器的API
+    function baseTokenURI() override public pure returns (string memory) { //TODO:修改成自己的 元数据服务器的API
         // 官方
         // return "https://creatures-api.opensea.io/api/creature/";
 
