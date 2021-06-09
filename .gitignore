@@ -7,3 +7,5 @@ yarn.lock
 res/NFT/
 res/test/
 res/yoyo/
+log.log
+.vscode/

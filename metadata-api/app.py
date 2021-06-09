@@ -10,7 +10,10 @@ import logging
 GOOGLE_STORAGE_PROJECT = os.environ['GOOGLE_STORAGE_PROJECT']
 GOOGLE_STORAGE_BUCKET = os.environ['GOOGLE_STORAGE_BUCKET']
 
-app = Flask(__name__)
+app = Flask(__name__, 
+            static_url_path='',             #FIXME:访问URL为 http://localhost:5000/1.png
+            static_folder='images/output'   #TODO:默认静态文件路径 /static/img,指定到别处了
+        )
 
 
 ########################################################################
@@ -315,7 +318,8 @@ def _compose_image(image_files, token_id, path='creature'):
         logging.warning('token_id: %s' % token_id)
         logging.warning('output_path: %s' % output_path)
         logging.warning('---------------')
-        return "http://localhost:5000/" + output_path
+        # return "http://localhost:5000/" + output_path
+        return "http://localhost:5000/%s.png" % token_id
     else:
         blob = _get_bucket().blob(f'{path}/{token_id}.png') #FIXME: 谷歌对象服务器
         blob.upload_from_filename(filename=output_path)

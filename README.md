@@ -2,6 +2,24 @@
 
 What's included:
 
+```bash
+.
+├── build				#[truffle]
+├── contracts			#[truffle] Creature(ERC-721)与CreatureAccessory(ERC-1155)
+├── flatten.sh			#[truffle] 合并合约到一个文件中 (提交到区块浏览器，供别人参阅，需要将所有sol的源代码放到一起)
+├── lib					#[js] 脚本用
+├── metadata-api		#[python] metadata-api server
+├── migrations			#[truffle] deploy
+├── node_modules
+├── package.json
+├── README.md
+├── res					#我将github作为元数据服务器用
+├── scripts				#[js] 操作脚本 Creature(ERC-721)与CreatureAccessory(ERC-1155)
+├── test				#[UT] 共用
+├── truffle.js			#[truffle] 配置
+├── .env				#[truffle] [js] 环境变量配置文件
+```
+
 ### Sample ERC721/ERC1155 Contracts
 
 This includes a very simple sample ERC721 / ERC1155 for the purposes of demonstrating integration with the [OpenSea](https://opensea.io) marketplace. We include a script for minting the items.
@@ -94,7 +112,7 @@ On top of the features from the OpenSea ERC721 sample contracts above, ERC1155
 
 Open CreatureAccessoryLootbox.sol
 
-1. Change `Class` to reflect your rarity levels.
+1. Change `Class` to reflect your rarity levels. //`_pickRandomClass`
 2. Change `NUM_CLASSES` to reflect how many classes you have (this gets used for sizing fixed-length arrays in Solidity)
 3. In `constructor`, set the `OptionSettings` for each of your classes. To do this, as in the example, call `setOptionSettings` with
    1. Your option id,
@@ -176,3 +194,36 @@ In one terminal window, run:
 Once Ganache has started, run the following in another terminal window:
 
     yarn run test
+
+## Deploy Metadata-api server
+
+```bash
+cd metadata-api
+pip install flask
+pip install django==1.11.17
+pip install -r requirements.txt
+
+vim .env
+   export GOOGLE_STORAGE_PROJECT="<your_project>"
+   export GOOGLE_STORAGE_BUCKET="<your_bucket>"
+
+#Place your Google cloud storage credentials in a file called `credentials/google-storage-credentials.json`.
+mkdir credentials
+touch credentials/google-storage-credentials.json
+   
+source .env
+python app.py
+```
+
+## 查看某个tokenid的元数据
+
+```bash
+curl http://localhost:5000/api/creature/1
+curl http://localhost:5000/api/creature/2
+
+#合成的图片生成在目录
+images/output/
+
+#静态图片的访问方式
+http://localhost:5000/1.png
+```
