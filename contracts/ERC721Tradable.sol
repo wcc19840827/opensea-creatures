@@ -70,6 +70,7 @@ abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTr
     /**
      * Override isApprovedForAll to whitelist user's OpenSea proxy accounts to enable gas-less listings.
      * 将OpenSea用户的代理帐户列入白名单，以便他们能够自动在OpenSea上交易任何商品（无需支付额外的批准费用）
+     * 在 OpenSea 上，每个用户都有一个他们控制的“代理”帐户，最终由 exchange 合约调用以交易他们的物品。
      */
     function isApprovedForAll(address owner, address operator)
         override

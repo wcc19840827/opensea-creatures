@@ -5,6 +5,7 @@ from google.oauth2 import service_account
 from PIL import Image
 import os
 import mimetypes
+import logging
 
 GOOGLE_STORAGE_PROJECT = os.environ['GOOGLE_STORAGE_PROJECT']
 GOOGLE_STORAGE_BUCKET = os.environ['GOOGLE_STORAGE_BUCKET']
@@ -103,7 +104,7 @@ def creature(token_id):
     num_first_names = len(FIRST_NAMES)
     num_last_names = len(LAST_NAMES)
     creature_name = '%s %s' % (FIRST_NAMES[token_id % num_first_names], LAST_NAMES[token_id % num_last_names])
-
+    # FLAG-Ryan:每个部位用哪张图
     base = BASES[token_id % len(BASES)]
     eyes = EYES[token_id % len(EYES)]
     mouth = MOUTH[token_id % len(MOUTH)]
@@ -292,7 +293,7 @@ def _add_attribute(existing, attribute_name, options, token_id, display_type=Non
         trait['display_type'] = display_type
     existing.append(trait)
 
-
+# FLAG-Ryan:合成图片
 def _compose_image(image_files, token_id, path='creature'):
     composite = None
     for image_file in image_files:
@@ -304,11 +305,21 @@ def _compose_image(image_files, token_id, path='creature'):
             composite = foreground
 
     output_path = 'images/output/%s.png' % token_id
-    composite.save(output_path)
+    composite.save(output_path)                             #保存合成的图片
 
-    blob = _get_bucket().blob(f'{path}/{token_id}.png')
-    blob.upload_from_filename(filename=output_path)
-    return blob.public_url
+    bTest = True                                            #FIXME:测试模式，图片保存在本地目录
+    if bTest:
+        logging.warning('---------------')
+        for image_file in image_files:
+            logging.warning('image_files: ' + image_file)
+        logging.warning('token_id: %s' % token_id)
+        logging.warning('output_path: %s' % output_path)
+        logging.warning('---------------')
+        return "http://localhost:5000/" + output_path
+    else:
+        blob = _get_bucket().blob(f'{path}/{token_id}.png') #FIXME: 谷歌对象服务器
+        blob.upload_from_filename(filename=output_path)
+        return blob.public_url
 
 
 def _bucket_image(image_path, token_id, path='accessory'):
