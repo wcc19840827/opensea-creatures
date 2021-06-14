@@ -27,7 +27,7 @@ module.exports = async (deployer, network, addresses) => {
   let proxyRegistryAddress = ""; //FIXME: 如果自己弄交易平台，得换成自己的
   if (network === 'rinkeby') {
     proxyRegistryAddress = "0xf57b2c51ded3a29e6891aba85459d600256cf317";
-  } else {
+  } else { //mainnet
     proxyRegistryAddress = "0xa5409ec958c83c3f309868babaca7c86dcb077c1";
   }
 

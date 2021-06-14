@@ -132,7 +132,7 @@ def creature(token_id):
         'name': creature_name,
         'description': 'Friendly OpenSea Creature that enjoys long swims in the ocean.',
         'image': image_url,
-        'external_url': 'https://openseacreatures.io/%s' % token_id,
+        'external_url': 'https://openseacreatures.io/%s' % token_id, #FIXME:改成自己的
         'attributes': attributes
     })
 

@@ -100,7 +100,7 @@ async function main() {
     // Creatures issued directly to the owner.
     for (var i = 0; i < NUM_CREATURES; i++) {
       const result = await nftContract.methods
-        .mintTo(OWNER_ADDRESS)
+        .mintTo(OWNER_ADDRESS)                  //FLAG-Ryan:
         .send({ from: OWNER_ADDRESS });
       console.log("Minted creature. Transaction: " + result.transactionHash);
     }

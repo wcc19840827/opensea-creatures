@@ -2,7 +2,7 @@
 ## Deploy Metadata-api server
 
 ```bash
-cd metadata-api
+#cd metadata-api
 pip install flask
 pip install django==1.11.17
 pip install -r requirements.txt
@@ -15,8 +15,7 @@ vim .env
 mkdir credentials
 touch credentials/google-storage-credentials.json
    
-source .env
-python app.py
+source .env && python app.py
 ```
 
 ## 查看某个tokenid的元数据
